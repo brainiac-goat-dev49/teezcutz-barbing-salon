@@ -1,0 +1,53 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions for security and schema validation
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isValidString(val, minLen, maxLen) {
+      return val is string && val.size() >= minLen && val.size() <= maxLen;
+    }
+
+    function isValidNumber(val, minVal) {
+      return (val is int || val is float) && val >= minVal;
+    }
+
+    // Secure by default: Lock down all unspecified collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Bookings (Reservations) Collection:
+    // - Public clients can submit a new booking (create only) with strict validation
+    // - Authenticated Admins have full access (read, update, delete) to manage bookings
+    match /bookings/{bookingId} {
+      allow create: if isValidString(request.resource.data.name, 2, 100)
+                    && isValidString(request.resource.data.phone, 5, 30)
+                    && isValidString(request.resource.data.service, 1, 100)
+                    && isValidString(request.resource.data.date, 8, 15)
+                    && isValidString(request.resource.data.time, 5, 12)
+                    && request.resource.data.customized is bool
+                    && isValidNumber(request.resource.data.price, 0)
+                    && request.resource.data.status in ['Active', 'Completed', 'Cancelled']
+                    && isValidString(request.resource.data.createdAt, 10, 40);
+      
+      allow read, update, delete: if isAuthenticated();
+    }
+
+    // Products (Services Inventory) Collection:
+    // - Public clients can read active services to view pricing and customized options
+    // - Authenticated Admins have full write permissions to create, edit, or delete listings
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAuthenticated()
+                   && isValidString(request.resource.data.name, 2, 120)
+                   && request.resource.data.tag is string
+                   && isValidNumber(request.resource.data.price, 0)
+                   && request.resource.data.icon is string
+                   && request.resource.data.description is string;
+    }
+  }
+}

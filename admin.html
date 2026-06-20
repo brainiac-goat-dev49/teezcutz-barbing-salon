@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeezCutz | Premium Admin Control Panel (2026)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom Fonts & Premium Styles -->
+  <link rel="stylesheet" href="designs/style.css">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ash: {
+              DEFAULT: '#8e94a2',
+              dark: '#2a2d34',
+              light: '#e2e8f0'
+            },
+            black: {
+              DEFAULT: '#0a0a0a',
+              pure: '#000000'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-black text-white min-h-screen relative font-sans flex flex-col justify-between selection:bg-white selection:text-black">
+
+  <!-- LOGIN PROTECTION PORTAL OVERLAY -->
+  <div id="login-gate" class="fixed inset-0 z-50 flex items-center justify-center bg-black-pure/95 backdrop-blur-xl transition-all duration-500">
+    <div class="absolute inset-0 bg-radial-glow opacity-30"></div>
+    <div class="premium-card p-8 rounded-2xl w-full max-w-md mx-4 relative z-10 border border-zinc-800 text-center glow-box-white">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white text-black mb-6 font-display text-2xl font-bold shadow-xl">
+        ✂️
+      </div>
+      <h2 class="font-display text-2xl font-bold tracking-tight mb-2 text-gradient-ash">TeezCutz Control Panel</h2>
+      <p class="text-xs text-ash mb-8 uppercase tracking-widest font-semibold">Authorized Personnel Only • 2026</p>
+      
+      <form id="login-form" class="space-y-4">
+        <div class="space-y-3">
+          <div>
+            <label class="block text-left text-xs font-bold text-ash uppercase tracking-wider mb-1.5">Admin Email</label>
+            <input type="email" id="admin-email" required placeholder="admin@teezcutz.com" 
+              class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-all duration-200 text-sm">
+          </div>
+          <div>
+            <label class="block text-left text-xs font-bold text-ash uppercase tracking-wider mb-1.5">Password</label>
+            <input type="password" id="admin-password" required placeholder="••••••••" 
+              class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-all duration-200 text-sm">
+          </div>
+        </div>
+        <button type="submit" class="w-full py-3 bg-white text-black font-semibold rounded-lg hover:bg-stone-200 transition-all duration-300 premium-btn mt-6">
+          Unlock System
+        </button>
+        <p id="login-error" class="text-red-500 text-xs mt-2 hidden">Access Denied. Invalid Credentials.</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- MAIN ADMIN APPLICATION INTERFACE (Hidden until Auth) -->
+  <div id="admin-app" class="hidden flex-1 flex flex-col min-h-screen relative">
+    
+    <!-- Header System -->
+    <header class="border-b border-zinc-900 bg-black-pure/80 backdrop-blur-md sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full border border-zinc-800 flex items-center justify-center font-display font-black text-lg bg-zinc-950">TC</div>
+          <div>
+            <h1 class="font-display font-bold text-lg tracking-wide uppercase">TeezCutz Admin</h1>
+            <p class="text-[10px] text-ash tracking-widest flex items-center gap-1">
+              <span class="glow-point"></span> REAL-TIME ENGINE CLOUD ACTIVE
+            </p>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="hidden md:flex bg-zinc-950 p-1.5 rounded-xl border border-zinc-900 gap-1">
+          <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-white text-black">
+            📊 Dashboard
+          </button>
+          <button onclick="switchTab('reservations')" id="tab-reservations" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold tracking-wider uppercase transition-all duration-300 text-ash hover:text-white">
+            📅 Reservations
+          </button>
+          <button onclick="switchTab('products')" id="tab-products" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold tracking-wider uppercase transition-all duration-300 text-ash hover:text-white">
+            💈 Custom Products
+          </button>
+        </nav>
+
+        <div class="flex items-center gap-4">
+          <!-- Firebase Connection Status Badge -->
+          <div id="sync-status" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-850 text-[10px] bg-zinc-950/80 font-mono text-zinc-400">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> DB: Online
+          </div>
+          <button onclick="logoutAdmin()" class="text-xs bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-stone-300 px-3.5 py-2 rounded-lg transition">
+            Sign Out
+          </button>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- Sticky Mobile Bottom Tab Navigation -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 z-50 flex border-t border-zinc-900 bg-black-pure/95 backdrop-blur-md p-3 pb-5 gap-2 justify-around shadow-2xl">
+      <button onclick="switchTab('dashboard')" id="m-tab-dashboard" class="flex-1 text-center py-2.5 text-[10px] uppercase font-extrabold tracking-wider bg-white text-black rounded-lg transition duration-200">
+        📊 Dashboard
+      </button>
+      <button onclick="switchTab('reservations')" id="m-tab-reservations" class="flex-1 text-center py-2.5 text-[10px] uppercase font-extrabold tracking-wider text-ash hover:text-white rounded-lg transition duration-200">
+        📅 Schedule
+      </button>
+      <button onclick="switchTab('products')" id="m-tab-products" class="flex-1 text-center py-2.5 text-[10px] uppercase font-extrabold tracking-wider text-ash hover:text-white rounded-lg transition duration-200">
+        💈 Products
+      </button>
+    </div>
+
+    <!-- Content Workspace -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8">
+      
+      <!-- TAB 1: DASHBOARD & LIVE KPI ANALYTICS -->
+      <section id="pane-dashboard" class="space-y-8 animate-fadeIn">
+        <!-- Welcoming Alert Banner -->
+        <div class="p-6 rounded-2xl bg-gradient-to-r from-zinc-950 to-stone-900 border border-zinc-800 relative overflow-hidden">
+          <div class="absolute inset-0 barber-stripe-subtle opacity-40"></div>
+          <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <h2 class="text-xl md:text-2xl font-display font-extrabold text-gradient-ash">Welcome back, Chief Barber Teez</h2>
+              <p class="text-xs text-ash mt-1">Here is a high-fidelity summary of your barbing salon operations for the current year 2026.</p>
+            </div>
+            <div class="bg-white/10 px-4 py-2 rounded-xl border border-white/10 backdrop-blur-md">
+              <p class="text-[10px] uppercase text-ash tracking-widest font-bold">Standard Year Mode</p>
+              <p class="text-sm font-black text-white">Fiscal Year 2026</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric KPI Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="premium-card p-6 rounded-2xl border border-zinc-900">
+            <p class="text-xs font-bold text-ash uppercase tracking-wider">Gross Salon Revenue</p>
+            <h3 class="text-3xl font-display font-black mt-2 text-gradient-ash" id="kpi-revenue">₦0</h3>
+            <p class="text-[10px] text-zinc-500 mt-1">Based on active bookings</p>
+          </div>
+          <div class="premium-card p-6 rounded-2xl border border-zinc-900">
+            <p class="text-xs font-bold text-ash uppercase tracking-wider">Total Reservations</p>
+            <h3 class="text-3xl font-display font-black mt-2" id="kpi-total-bookings">0</h3>
+            <p class="text-[10px] text-zinc-500 mt-1" id="kpi-pending-bookings">0 Pending Seats</p>
+          </div>
+          <div class="premium-card p-6 rounded-2xl border border-zinc-900">
+            <p class="text-xs font-bold text-ash uppercase tracking-wider">Active Studio Products</p>
+            <h3 class="text-3xl font-display font-black mt-2" id="kpi-products-count">0</h3>
+            <p class="text-[10px] text-zinc-500 mt-1">Dynamic Live Offerings</p>
+          </div>
+          <div class="premium-card p-6 rounded-2xl border border-zinc-900">
+            <p class="text-xs font-bold text-ash uppercase tracking-wider">Custom Cuts Ratio</p>
+            <h3 class="text-3xl font-display font-black mt-2" id="kpi-custom-ratio">0%</h3>
+            <p class="text-[10px] text-zinc-500 mt-1">Client customized layouts</p>
+          </div>
+        </div>
+
+        <!-- Quick Activity Logs and Graph Simulation -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-2 premium-card p-6 rounded-2xl border border-zinc-900">
+            <div class="flex justify-between items-center mb-6">
+              <h4 class="font-display font-bold text-sm uppercase tracking-wide">Daily Booking Density Map (2026)</h4>
+              <span class="text-[10px] text-ash bg-zinc-900 px-2 py-1 rounded">Live Timeline</span>
+            </div>
+            <!-- Elegant mock graph visualization -->
+            <div class="space-y-4">
+              <div class="flex items-end h-40 gap-2 border-b border-zinc-900 pb-2">
+                <div class="flex-1 bg-stone-900 hover:bg-stone-800 transition duration-300 rounded-t h-[40%]" title="Mon"></div>
+                <div class="flex-1 bg-stone-800 hover:bg-stone-700 transition duration-300 rounded-t h-[65%]" title="Tue"></div>
+                <div class="flex-1 bg-stone-700 hover:bg-stone-600 transition duration-300 rounded-t h-[50%]" title="Wed"></div>
+                <div class="flex-1 bg-zinc-600 hover:bg-zinc-500 transition duration-300 rounded-t h-[80%]" title="Thu"></div>
+                <div class="flex-1 bg-stone-500 hover:bg-stone-400 transition duration-300 rounded-t h-[95%]" title="Fri"></div>
+                <div class="flex-1 bg-white hover:bg-stone-200 transition duration-300 rounded-t h-[100%]" title="Sat"></div>
+                <div class="flex-1 bg-zinc-800 hover:bg-zinc-700 transition duration-300 rounded-t h-[30%]" title="Sun"></div>
+              </div>
+              <div class="flex justify-between text-[10px] text-ash font-bold uppercase tracking-wider">
+                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="premium-card p-6 rounded-2xl border border-zinc-900 flex flex-col justify-between">
+            <div>
+              <h4 class="font-display font-bold text-sm uppercase tracking-wide mb-4">Barber Seat Distribution</h4>
+              <div class="space-y-4">
+                <div>
+                  <div class="flex justify-between text-xs text-ash mb-1">
+                    <span>Teez (Master Stylist)</span>
+                    <span class="font-bold text-white" id="dist-teez">0 bookings</span>
+                  </div>
+                  <div class="w-full bg-zinc-950 h-2 rounded-full overflow-hidden border border-zinc-900">
+                    <div id="bar-teez" class="bg-white h-full transition-all duration-500" style="width: 0%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs text-ash mb-1">
+                    <span>King (Color Specialist)</span>
+                    <span class="font-bold text-white" id="dist-king">0 bookings</span>
+                  </div>
+                  <div class="w-full bg-zinc-950 h-2 rounded-full overflow-hidden border border-zinc-900">
+                    <div id="bar-king" class="bg-ash h-full transition-all duration-500" style="width: 0%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-t border-zinc-900 pt-4 mt-6">
+              <p class="text-[10px] text-ash uppercase tracking-wider">Operational Note</p>
+              <p class="text-xs text-zinc-400 mt-1">Keep schedule spaced 30 mins to guarantee extreme precision razor detailing.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: LIVE RESERVATION SEAT MANAGEMENT -->
+      <section id="pane-reservations" class="hidden space-y-6 animate-fadeIn">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h2 class="font-display text-xl font-bold tracking-wider uppercase">Live Reservations & Seats</h2>
+            <p class="text-xs text-ash">Track customer bookings, customization files, and update live schedule states.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="filterReservations('All')" class="filter-res-btn px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider border border-white bg-white text-black transition-all">
+              All
+            </button>
+            <button onclick="filterReservations('Active')" class="filter-res-btn px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider border border-zinc-850 hover:border-white transition-all text-ash hover:text-white">
+              Active
+            </button>
+            <button onclick="filterReservations('Completed')" class="filter-res-btn px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider border border-zinc-850 hover:border-white transition-all text-ash hover:text-white">
+              Completed
+            </button>
+            <button onclick="filterReservations('Cancelled')" class="filter-res-btn px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider border border-zinc-850 hover:border-white transition-all text-ash hover:text-white">
+              Cancelled
+            </button>
+          </div>
+        </div>
+
+        <!-- Reservations Dynamic Table Grid -->
+        <div class="premium-card rounded-2xl overflow-hidden border border-zinc-900">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-zinc-900 bg-zinc-950/80 text-[10px] text-ash font-extrabold uppercase tracking-wider">
+                  <th class="py-4 px-6">Client Info</th>
+                  <th class="py-4 px-6">Service & Stylist</th>
+                  <th class="py-4 px-6">Date & Slot</th>
+                  <th class="py-4 px-6">Price</th>
+                  <th class="py-4 px-6">Preference</th>
+                  <th class="py-4 px-6">Status State</th>
+                  <th class="py-4 px-6 text-right">State Management</th>
+                </tr>
+              </thead>
+              <tbody id="reservations-table-body" class="divide-y divide-zinc-900 text-xs sm:text-sm">
+                <!-- Dynamically populated rows via logic -->
+                <tr>
+                  <td colspan="7" class="py-12 text-center text-ash text-xs tracking-widest uppercase">
+                    Connecting to live reservation data stream...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: PRODUCTS & SERVICES BUILDER (BASE64) -->
+      <section id="pane-products" class="hidden space-y-8 animate-fadeIn">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          <!-- Product Creation & Updating Panel -->
+          <div class="lg:col-span-5 space-y-6">
+            <div class="premium-card p-6 rounded-2xl border border-zinc-900 glow-box-ash">
+              <div class="flex justify-between items-center mb-6">
+                <h3 id="product-form-title" class="font-display font-bold text-base uppercase tracking-wide text-gradient-ash">Create New Service Offering</h3>
+                <button onclick="resetProductForm()" id="btn-reset-product" class="hidden text-[10px] uppercase font-bold tracking-wider bg-zinc-900 hover:bg-zinc-850 text-ash px-2 py-1 rounded">
+                  Cancel Edit
+                </button>
+              </div>
+
+              <form id="product-creator-form" class="space-y-4">
+                <input type="hidden" id="product-id-field">
+                
+                <div>
+                  <label class="block text-[10px] uppercase font-bold text-ash tracking-widest mb-1.5">Service Name</label>
+                  <input type="text" id="prod-name" required placeholder="e.g. Lowcut + Beard Treatment" 
+                    class="w-full bg-zinc-950 border border-zinc-850 rounded-lg px-3.5 py-2 text-white text-xs focus:outline-none focus:border-white transition">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-[10px] uppercase font-bold text-ash tracking-widest mb-1.5">Category Tag</label>
+                    <input type="text" id="prod-tag" required placeholder="e.g. Classic, Luxury, Tint" 
+                      class="w-full bg-zinc-950 border border-zinc-850 rounded-lg px-3.5 py-2 text-white text-xs focus:outline-none focus:border-white transition">
+                  </div>
+                  <div>
+                    <label class="block text-[10px] uppercase font-bold text-ash tracking-widest mb-1.5">Naira Price (₦)</label>
+                    <input type="number" id="prod-price" required placeholder="e.g. 5000" 
+                      class="w-full bg-zinc-950 border border-zinc-850 rounded-lg px-3.5 py-2 text-white text-xs focus:outline-none focus:border-white transition">
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2">
+                  <div class="col-span-2">
+                    <label class="block text-[10px] uppercase font-bold text-ash tracking-widest mb-1.5">Representation Emoji / Icon</label>
+                    <input type="text" id="prod-icon" required placeholder="e.g. ✂️, 👑, 💈, ⚡" 
+                      class="w-full bg-zinc-950 border border-zinc-850 rounded-lg px-3.5 py-2 text-white text-xs focus:outline-none focus:border-white transition">
+                  </div>
+                  <div>
+                    <label class="block text-[10px] uppercase font-bold text-ash tracking-widest mb-1.5">Preview</label>
+                    <div id="icon-preview" class="w-full h-9 bg-zinc-950 border border-zinc-850 rounded-lg flex items-center justify-center text-lg">
+                      💈
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-[10px] uppercase font-bold text-ash tracking-widest mb-1.5">Detail Description</label>
+                  <textarea id="prod-description" rows="3" required placeholder="Describe the exclusive treatment parameters included with this cut..." 
+                    class="w-full bg-zinc-950 border border-zinc-850 rounded-lg px-3.5 py-2 text-white text-xs focus:outline-none focus:border-white transition resize-none"></textarea>
+                </div>
+
+                <!-- Dual Base64 Image Uploaders -->
+                <div class="space-y-4 pt-2">
+                  <h4 class="text-[10px] uppercase font-bold text-ash tracking-widest border-b border-zinc-900 pb-1">Dynamic Image Attachments (Base64)</h4>
+                  
+                  <div class="grid grid-cols-2 gap-4">
+                    <!-- Image 1 -->
+                    <div>
+                      <label class="block text-[9px] uppercase font-bold text-zinc-500 tracking-wider mb-1">Visual Cover (Image 1)</label>
+                      <div class="border border-dashed border-zinc-800 rounded-lg p-2 bg-zinc-950/50 flex flex-col items-center justify-center cursor-pointer hover:border-zinc-500 transition relative h-28">
+                        <input type="file" id="prod-img1-file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
+                        <div id="img1-placeholder" class="text-center space-y-1">
+                          <span class="text-xs">📸 Upload</span>
+                          <span class="block text-[8px] text-zinc-600">Select Image</span>
+                        </div>
+                        <img id="img1-preview" class="hidden w-full h-full object-cover rounded-md absolute inset-0">
+                      </div>
+                      <input type="hidden" id="prod-base64-1">
+                    </div>
+
+                    <!-- Image 2 -->
+                    <div>
+                      <label class="block text-[9px] uppercase font-bold text-zinc-500 tracking-wider mb-1">Detail Shot (Image 2)</label>
+                      <div class="border border-dashed border-zinc-800 rounded-lg p-2 bg-zinc-950/50 flex flex-col items-center justify-center cursor-pointer hover:border-zinc-500 transition relative h-28">
+                        <input type="file" id="prod-img2-file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
+                        <div id="img2-placeholder" class="text-center space-y-1">
+                          <span class="text-xs">📸 Upload</span>
+                          <span class="block text-[8px] text-zinc-600">Select Image</span>
+                        </div>
+                        <img id="img2-preview" class="hidden w-full h-full object-cover rounded-md absolute inset-0">
+                      </div>
+                      <input type="hidden" id="prod-base64-2">
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" id="btn-submit-product" class="w-full py-3 bg-white text-black font-semibold rounded-lg hover:bg-stone-200 transition-all duration-300 tracking-wider uppercase text-xs font-bold mt-4">
+                  Register Service Component
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Product Inventory List (Live Stream Sync) -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="flex justify-between items-center">
+              <h3 class="font-display font-bold text-base uppercase tracking-wide">Live Services Inventory</h3>
+              <p class="text-xs text-ash font-mono" id="inventory-count">0 Offerings Available</p>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="admin-products-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Dynamically rendered custom products -->
+              <div class="col-span-2 text-center py-12 text-ash text-xs tracking-widest uppercase">
+                Synchronizing product items...
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Admin Footer -->
+    <footer class="border-t border-zinc-950 bg-black-pure/90 py-6 mt-12 text-center text-xs text-zinc-500">
+      <p>&copy; 2026 TeezCutz Professional Barbing. Managed via Real-Time Cloud Engine.</p>
+    </footer>
+  </div>
+
+    // 1. AUTHENTICATION & LOGIN GATE SYSTEM
+    // ==========================================
+    function initAdminAuthentication() {
+      // Check session memory
+      const authSession = sessionStorage.getItem('teezcutz_admin_session');
+      if (authSession === 'unlocked_2026') {
+        unlockApp();
+      }
+
+      const loginForm = document.getElementById('login-form');
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const inputVal = document.getElementById('admin-passcode').value;
+        
+        // Passcode verification
+        if (inputVal === 'admin2026') {
+          sessionStorage.setItem('teezcutz_admin_session', 'unlocked_2026');
+          unlockApp();
+          document.getElementById('login-error').classList.add('hidden');
+        } else {
+          const err = document.getElementById('login-error');
+          err.classList.remove('hidden');
+          err.classList.add('animate-shake');
+          setTimeout(() => err.classList.remove('animate-shake'), 500);
+        }
+      });
+    }
+
+    function unlockApp() {
+      adminState.isAuthenticated = true;
+      document.getElementById('login-gate').classList.add('hidden');
+      document.getElementById('admin-app').classList.remove('hidden');
+      if (typeof showNotification === 'function') {
+        showNotification('🔐 Access Granted. System operational for 2026.', 'success');
+      }
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('teezcutz_admin_session');
+      location.reload();
+    }
+====
+    // ==========================================
+    // 1. AUTHENTICATION & LOGIN GATE SYSTEM
+    // ==========================================
+    function initAdminAuthentication() {
+      const checkInterval = setInterval(() => {
+        if (window.FirebaseSync) {
+          clearInterval(checkInterval);
+          window.FirebaseSync.onAuthStateChanged((user) => {
+            if (user) {
+              unlockApp();
+            } else {
+              lockApp();
+            }
+          });
+        }
+      }, 300);
+
+      const loginForm = document.getElementById('login-form');
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('admin-email').value;
+        const password = document.getElementById('admin-password').value;
+        
+        try {
+          await window.FirebaseSync.signInAdmin(email, password);
+          document.getElementById('login-error').classList.add('hidden');
+        } catch (error) {
+          console.error(error);
+          const err = document.getElementById('login-error');
+          err.textContent = error.message || "Access Denied. Invalid Credentials.";
+          err.classList.remove('hidden');
+          err.classList.add('animate-shake');
+          setTimeout(() => err.classList.remove('animate-shake'), 500);
+        }
+      });
+    }
+
+    function unlockApp() {
+      adminState.isAuthenticated = true;
+      document.getElementById('login-gate').classList.add('hidden');
+      document.getElementById('admin-app').classList.remove('hidden');
+      if (typeof showNotification === 'function') {
+        showNotification('🔐 Access Granted. System operational for 2026.', 'success');
+      }
+    }
+
+    function lockApp() {
+      adminState.isAuthenticated = false;
+      document.getElementById('login-gate').classList.remove('hidden');
+      document.getElementById('admin-app').classList.add('hidden');
+    }
+
+    async function logoutAdmin() {
+      if (window.FirebaseSync) {
+        await window.FirebaseSync.signOutAdmin();
+      }
+    }System Wide States
+    const adminState = {
+      isAuthenticated: false,
+      activeTab: 'dashboard',
+      reservations: [],
+      products: [],
+      currentResFilter: 'All'
+    };
+
+    // DOM LOAD ENTRY
+    document.addEventListener('DOMContentLoaded', () => {
+      initAdminAuthentication();
+      initRealtimeSubscriptions();
+      setupFormListeners();
+    });
+
+    // ==========================================
+    // 1. AUTHENTICATION & LOGIN GATE SYSTEM
+    // ==========================================
+    function initAdminAuthentication() {
+      // Check session memory
+      const authSession = sessionStorage.getItem('teezcutz_admin_session');
+      if (authSession === 'unlocked_2026') {
+        unlockApp();
+      }
+
+      const loginForm = document.getElementById('login-form');
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const inputVal = document.getElementById('admin-passcode').value;
+        
+        // Passcode verification
+        if (inputVal === 'admin2026') {
+          sessionStorage.setItem('teezcutz_admin_session', 'unlocked_2026');
+          unlockApp();
+          document.getElementById('login-error').classList.add('hidden');
+        } else {
+          const err = document.getElementById('login-error');
+          err.classList.remove('hidden');
+          err.classList.add('animate-shake');
+          setTimeout(() => err.classList.remove('animate-shake'), 500);
+        }
+      });
+    }
+
+    function unlockApp() {
+      adminState.isAuthenticated = true;
+      document.getElementById('login-gate').classList.add('hidden');
+      document.getElementById('admin-app').classList.remove('hidden');
+      if (typeof showNotification === 'function') {
+        showNotification('🔐 Access Granted. System operational for 2026.', 'success');
+      }
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('teezcutz_admin_session');
+      location.reload();
+    }
+
+    // ==========================================
+    // 2. TAB SWITCHER SYSTEM
+    // ==========================================
+    function switchTab(tabId) {
+      adminState.activeTab = tabId;
+      
+      // Reset desktop button states
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-black');
+        btn.classList.add('text-ash', 'hover:text-white');
+      });
+      const activeBtn = document.getElementById(`tab-${tabId}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-ash', 'hover:text-white');
+        activeBtn.classList.add('bg-white', 'text-black');
+      }
+
+      // Reset mobile button states
+      document.querySelectorAll('[id^="m-tab-"]').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-black');
+        btn.classList.add('text-ash');
+      });
+      const activeMBtn = document.getElementById(`m-tab-${tabId}`);
+      if (activeMBtn) {
+        activeMBtn.classList.remove('text-ash');
+        activeMBtn.classList.add('bg-white', 'text-black');
+      }
+
+      // Show/Hide section panes
+      ['dashboard', 'reservations', 'products'].forEach(id => {
+        const pane = document.getElementById(`pane-${id}`);
+        if (pane) {
+          if (id === tabId) {
+            pane.classList.remove('hidden');
+          } else {
+            pane.classList.add('hidden');
+          }
+        }
+      });
+    }
+
+    // ==========================================
+    // 3. REALTIME SUBSCRIBER STREAMS (FIREBASE)
+    // ==========================================
+    function initRealtimeSubscriptions() {
+      const dbStatusBadge = document.getElementById('sync-status');
+      
+      // Wait for FirebaseSync to mount
+      const checkInterval = setInterval(() => {
+        if (window.FirebaseSync) {
+          clearInterval(checkInterval);
+          
+          if (dbStatusBadge) {
+            dbStatusBadge.classList.remove('hidden');
+            if (window.FirebaseSync.isCloudActive()) {
+              dbStatusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Cloud Stream Connected`;
+            } else {
+              dbStatusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500"></span> Sandbox Storage Local`;
+            }
+          }
+
+          // Realtime Bookings Subscription
+          window.FirebaseSync.onBookingsUpdate((bookings) => {
+            adminState.reservations = bookings;
+            renderKPIs();
+            renderReservations();
+          });
+
+          // Realtime Products Subscription
+          window.FirebaseSync.onProductsUpdate((products) => {
+            adminState.products = products;
+            renderKPIs();
+            renderProducts();
+          });
+        }
+      }, 300);
+    }
+
+    // ==========================================
+    // 4. KPI ANALYTICS UPDATER
+    // ==========================================
+    function renderKPIs() {
+      // Revenue calculation (Active and Completed bookings counted)
+      let totalRevenue = 0;
+      let totalCount = adminState.reservations.length;
+      let pendingCount = 0;
+      let customCount = 0;
+
+      adminState.reservations.forEach(res => {
+        if (res.status !== 'Cancelled') {
+          totalRevenue += Number(res.price) || 0;
+        }
+        if (res.status === 'Active') {
+          pendingCount++;
+        }
+        if (res.customized) {
+          customCount++;
+        }
+      });
+
+      // Update KPI nodes
+      document.getElementById('kpi-revenue').textContent = `₦${totalRevenue.toLocaleString()}`;
+      document.getElementById('kpi-total-bookings').textContent = totalCount;
+      document.getElementById('kpi-pending-bookings').textContent = `${pendingCount} Pending Seats`;
+      document.getElementById('kpi-products-count').textContent = adminState.products.length;
+      document.getElementById('inventory-count').textContent = `${adminState.products.length} Offerings Available`;
+
+      const ratio = totalCount > 0 ? Math.round((customCount / totalCount) * 100) : 0;
+      document.getElementById('kpi-custom-ratio').textContent = `${ratio}%`;
+
+      // Barber Distribution Charts
+      let teezCount = 0;
+      let kingCount = 0;
+      adminState.reservations.forEach(res => {
+        if (res.barber === 'teez') teezCount++;
+        if (res.barber === 'king') kingCount++;
+      });
+
+      const totalDist = teezCount + kingCount || 1;
+      const teezPercentage = Math.round((teezCount / totalDist) * 100);
+      const kingPercentage = Math.round((kingCount / totalDist) * 100);
+
+      document.getElementById('dist-teez').textContent = `${teezCount} cuts`;
+      document.getElementById('dist-king').textContent = `${kingCount} cuts`;
+      
+      document.getElementById('bar-teez').style.width = `${teezPercentage}%`;
+      document.getElementById('bar-king').style.width = `${kingPercentage}%`;
+    }
+
+    // ==========================================
+    // 5. RESERVATIONS DISPLAY & CONTROLS
+    // ==========================================
+    function filterReservations(filterType) {
+      adminState.currentResFilter = filterType;
+      
+      // Update filter UI buttons
+      document.querySelectorAll('.filter-res-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-black', 'border-white');
+        btn.classList.add('text-ash', 'border-zinc-850');
+      });
+
+      // Highlight target button
+      event.target.classList.remove('text-ash', 'border-zinc-850');
+      event.target.classList.add('bg-white', 'text-black', 'border-white');
+
+      renderReservations();
+    }
+
+    function renderReservations() {
+      const tbody = document.getElementById('reservations-table-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+
+      const filtered = adminState.reservations.filter(res => {
+        if (adminState.currentResFilter === 'All') return true;
+        return res.status === adminState.currentResFilter;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="py-12 text-center text-zinc-500 tracking-wider">
+              No reservations matched selected filters.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filtered.forEach(res => {
+        const row = document.createElement('tr');
+        row.className = "hover:bg-zinc-950/40 transition duration-200 border-b border-zinc-900";
+
+        // Status Badge Styling
+        let statusBadgeClass = "bg-zinc-900 text-stone-300";
+        if (res.status === 'Completed') statusBadgeClass = "bg-white text-black font-extrabold";
+        if (res.status === 'Cancelled') statusBadgeClass = "bg-stone-900 text-zinc-600 line-through";
+
+        // Style preference layout indicator
+        const prefMarkup = res.customized 
+          ? `<span class="inline-block px-2 py-0.5 rounded bg-zinc-950 border border-zinc-800 text-[10px] text-white">⚙️ Customized</span>` 
+          : `<span class="inline-block px-2 py-0.5 rounded bg-zinc-950 text-[10px] text-zinc-600">Standard</span>`;
+
+        row.innerHTML = `
+          <td class="py-4 px-6">
+            <p class="font-bold text-white">${res.name}</p>
+            <p class="text-[10px] text-ash font-mono">${res.phone || 'N/A'}</p>
+          </td>
+          <td class="py-4 px-6">
+            <span class="font-semibold text-zinc-300 uppercase text-[11px]">${res.service}</span>
+            <span class="block text-[10px] text-zinc-500">Barber: ${res.barber.toUpperCase()}</span>
+          </td>
+          <td class="py-4 px-6">
+            <p class="font-bold">${res.date}</p>
+            <p class="text-[10px] text-ash">${res.time}</p>
+          </td>
+          <td class="py-4 px-6 font-semibold font-mono text-white">
+            ₦${(Number(res.price) || 0).toLocaleString()}
+          </td>
+          <td class="py-4 px-6">
+            ${prefMarkup}
+          </td>
+          <td class="py-4 px-6">
+            <span class="px-2 py-1 rounded text-[10px] uppercase font-bold tracking-wider ${statusBadgeClass}">
+              ${res.status}
+            </span>
+          </td>
+          <td class="py-4 px-6 text-right space-x-1">
+            <button onclick="updateResState('${res.id}', 'Completed')" class="px-2 py-1 bg-white text-black hover:bg-stone-200 text-[10px] font-bold rounded transition">
+              Complete
+            </button>
+            <button onclick="updateResState('${res.id}', 'Cancelled')" class="px-2 py-1 bg-zinc-900 hover:bg-zinc-850 text-[10px] text-red-400 rounded border border-zinc-800 transition">
+              Cancel
+            </button>
+          </td>
+        `;
+
+        tbody.appendChild(row);
+      });
+    }
+
+    async function updateResState(bookingId, status) {
+      if (typeof window.FirebaseSync !== 'undefined') {
+        const success = await window.FirebaseSync.updateBookingStatus(bookingId, status);
+        if (success && typeof showNotification === 'function') {
+          showNotification(`Reservation changed status to: ${status}`, 'success');
+        }
+      }
+    }
+
+    // ==========================================
+    // 6. PRODUCT CREATOR & BASE64 PREVIEWS
+    // ==========================================
+    function setupFormListeners() {
+      const prodForm = document.getElementById('product-creator-form');
+      const iconInput = document.getElementById('prod-icon');
+      const iconPreview = document.getElementById('icon-preview');
+
+      // Update icon preview box dynamically
+      iconInput.addEventListener('input', () => {
+        iconPreview.textContent = iconInput.value || '💈';
+      });
+
+      // Handle Base64 Upload Image 1
+      const img1File = document.getElementById('prod-img1-file');
+      img1File.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            document.getElementById('prod-base64-1').value = event.target.result;
+            document.getElementById('img1-preview').src = event.target.result;
+            document.getElementById('img1-preview').classList.remove('hidden');
+            document.getElementById('img1-placeholder').classList.add('opacity-0');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Handle Base64 Upload Image 2
+      const img2File = document.getElementById('prod-img2-file');
+      img2File.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            document.getElementById('prod-base64-2').value = event.target.result;
+            document.getElementById('img2-preview').src = event.target.result;
+            document.getElementById('img2-preview').classList.remove('hidden');
+            document.getElementById('img2-placeholder').classList.add('opacity-0');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Handle Submit Form
+      prodForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const productId = document.getElementById('product-id-field').value;
+        const name = document.getElementById('prod-name').value;
+        const tag = document.getElementById('prod-tag').value;
+        const price = Number(document.getElementById('prod-price').value);
+        const icon = document.getElementById('prod-icon').value;
+        const description = document.getElementById('prod-description').value;
+        const image1 = document.getElementById('prod-base64-1').value;
+        const image2 = document.getElementById('prod-base64-2').value;
+
+        const payload = { name, tag, price, icon, description, image1, image2 };
+
+        if (window.FirebaseSync) {
+          const result = await window.FirebaseSync.saveProduct(productId || null, payload);
+          if (result.success) {
+            showNotification(productId ? 'Product Updated Successfully' : 'New Product Registered', 'success');
+            resetProductForm();
+          }
+        }
+      });
+    }
+
+    function resetProductForm() {
+      document.getElementById('product-creator-form').reset();
+      document.getElementById('product-id-field').value = '';
+      
+      // Reset cover elements
+      document.getElementById('prod-base64-1').value = '';
+      document.getElementById('img1-preview').classList.add('hidden');
+      document.getElementById('img1-placeholder').classList.remove('opacity-0');
+
+      document.getElementById('prod-base64-2').value = '';
+      document.getElementById('img2-preview').classList.add('hidden');
+      document.getElementById('img2-placeholder').classList.remove('opacity-0');
+
+      document.getElementById('icon-preview').textContent = '💈';
+      document.getElementById('product-form-title').textContent = 'Create New Service Offering';
+      document.getElementById('btn-submit-product').textContent = 'Register Service Component';
+      document.getElementById('btn-reset-product').classList.add('hidden');
+    }
+
+    // ==========================================
+    // 7. RENDER LIVE INVENTORY PRODUCTS
+    // ==========================================
+    function renderProducts() {
+      const grid = document.getElementById('admin-products-grid');
+      if (!grid) return;
+
+      grid.innerHTML = '';
+
+      if (adminState.products.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-2 text-center py-12 text-zinc-500 uppercase tracking-widest text-xs">
+            No dynamic products initialized. Fill form on left.
+          </div>
+        `;
+        return;
+      }
+
+      adminState.products.forEach(prod => {
+        const card = document.createElement('div');
+        card.className = "premium-card p-5 rounded-2xl border border-zinc-900 flex flex-col justify-between";
+
+        // Generate base64 visuals grid if exist
+        let base64PreviewGrid = '';
+        if (prod.image1 || prod.image2) {
+          base64PreviewGrid = `
+            <div class="grid grid-cols-2 gap-2 mt-4 rounded-xl overflow-hidden h-24 border border-zinc-950">
+              ${prod.image1 ? `<img src="${prod.image1}" class="w-full h-full object-cover">` : `<div class="bg-zinc-950 flex items-center justify-center text-[9px] text-zinc-700">No Img 1</div>`}
+              ${prod.image2 ? `<img src="${prod.image2}" class="w-full h-full object-cover">` : `<div class="bg-zinc-950 flex items-center justify-center text-[9px] text-zinc-700">No Img 2</div>`}
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-start">
+              <span class="text-xl">${prod.icon || '💈'}</span>
+              <span class="text-[9px] uppercase font-bold px-2 py-0.5 bg-zinc-900 text-stone-300 border border-zinc-850 rounded">
+                ${prod.tag}
+              </span>
+            </div>
+            
+            <h4 class="font-display font-bold text-sm mt-3 text-white">${prod.name}</h4>
+            <p class="text-xs text-ash mt-1 font-semibold">₦${(Number(prod.price) || 0).toLocaleString()}</p>
+            <p class="text-[11px] text-zinc-500 mt-2 line-clamp-2">${prod.description || 'No description detail provided.'}</p>
+            
+            ${base64PreviewGrid}
+          </div>
+
+          <div class="flex gap-2 mt-5 pt-4 border-t border-zinc-950">
+            <button onclick="editProduct('${prod.id}')" class="flex-1 py-1.5 bg-zinc-900 hover:bg-zinc-850 text-stone-300 rounded text-[10px] font-bold uppercase tracking-wider transition">
+              Edit Card
+            </button>
+            <button onclick="deleteProduct('${prod.id}')" class="px-2 py-1.5 bg-stone-950 text-red-400 hover:text-red-300 rounded text-[10px] transition">
+              🗑️ Delete
+            </button>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Edit Product callback
+    function editProduct(productId) {
+      const prod = adminState.products.find(p => p.id === productId);
+      if (!prod) return;
+
+      document.getElementById('product-id-field').value = prod.id;
+      document.getElementById('prod-name').value = prod.name;
+      document.getElementById('prod-tag').value = prod.tag;
+      document.getElementById('prod-price').value = prod.price;
+      document.getElementById('prod-icon').value = prod.icon;
+      document.getElementById('prod-description').value = prod.description;
+      
+      // Base64 Visual Restoration
+      document.getElementById('prod-base64-1').value = prod.image1 || '';
+      if (prod.image1) {
+        document.getElementById('img1-preview').src = prod.image1;
+        document.getElementById('img1-preview').classList.remove('hidden');
+        document.getElementById('img1-placeholder').classList.add('opacity-0');
+      } else {
+        document.getElementById('img1-preview').classList.add('hidden');
+        document.getElementById('img1-placeholder').classList.remove('opacity-0');
+      }
+
+      document.getElementById('prod-base64-2').value = prod.image2 || '';
+      if (prod.image2) {
+        document.getElementById('img2-preview').src = prod.image2;
+        document.getElementById('img2-preview').classList.remove('hidden');
+        document.getElementById('img2-placeholder').classList.add('opacity-0');
+      } else {
+        document.getElementById('img2-preview').classList.add('hidden');
+        document.getElementById('img2-placeholder').classList.remove('opacity-0');
+      }
+
+      document.getElementById('icon-preview').textContent = prod.icon || '💈';
+      document.getElementById('product-form-title').textContent = 'Modify Active Service';
+      document.getElementById('btn-submit-product').textContent = 'Publish Modification Changes';
+      document.getElementById('btn-reset-product').classList.remove('hidden');
+
+      // Scroll form into view
+      document.getElementById('product-creator-form').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    async function deleteProduct(productId) {
+      if (confirm('Are you absolutely sure you want to retire this salon service from live database?')) {
+        if (window.FirebaseSync) {
+          const success = await window.FirebaseSync.deleteProduct(productId);
+          if (success) {
+            showNotification('Product removed from active storefront roster.', 'success');
+          }
+        }
+      }
+    }
+  </script>
+====
+  <!-- Realtime Database Synchronization Engines -->
+  <script src="logics/firebase.js"></script>
+  <script src="logics/salon.js"></script>
+  
+  <script>
+    // System Wide States
+    const adminState = {
+      isAuthenticated: false,
+      activeTab: 'dashboard',
+      reservations: [],
+      products: [],
+      currentResFilter: 'All'
+    };
+
+    // DOM LOAD ENTRY
+    document.addEventListener('DOMContentLoaded', () => {
+      initAdminAuthentication();
+      initRealtimeSubscriptions();
+      setupFormListeners();
+    });
+
+    // ==========================================
+    // 1. AUTHENTICATION & LOGIN GATE SYSTEM
+    // ==========================================
+    function initAdminAuthentication() {
+      const checkInterval = setInterval(() => {
+        if (window.FirebaseSync) {
+          clearInterval(checkInterval);
+          window.FirebaseSync.onAuthStateChanged((user) => {
+            if (user) {
+              unlockApp();
+            } else {
+              lockApp();
+            }
+          });
+        }
+      }, 300);
+
+      const loginForm = document.getElementById('login-form');
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('admin-email').value;
+        const password = document.getElementById('admin-password').value;
+        
+        try {
+          await window.FirebaseSync.signInAdmin(email, password);
+          document.getElementById('login-error').classList.add('hidden');
+        } catch (error) {
+          console.error(error);
+          const err = document.getElementById('login-error');
+          err.textContent = error.message || "Access Denied. Invalid Credentials.";
+          err.classList.remove('hidden');
+          err.classList.add('animate-shake');
+          setTimeout(() => err.classList.remove('animate-shake'), 500);
+        }
+      });
+    }
+
+    function unlockApp() {
+      adminState.isAuthenticated = true;
+      document.getElementById('login-gate').classList.add('hidden');
+      document.getElementById('admin-app').classList.remove('hidden');
+      if (typeof showNotification === 'function') {
+        showNotification('🔐 Access Granted. System operational for 2026.', 'success');
+      }
+    }
+
+    function lockApp() {
+      adminState.isAuthenticated = false;
+      document.getElementById('login-gate').classList.remove('hidden');
+      document.getElementById('admin-app').classList.add('hidden');
+    }
+
+    async function logoutAdmin() {
+      if (window.FirebaseSync) {
+        await window.FirebaseSync.signOutAdmin();
+      }
+    }
+
+    // ==========================================
+    // 2. TAB SWITCHER SYSTEM
+    // ==========================================
+    function switchTab(tabId) {
+      adminState.activeTab = tabId;
+      
+      // Reset desktop button states
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-black');
+        btn.classList.add('text-ash', 'hover:text-white');
+      });
+      const activeBtn = document.getElementById(`tab-${tabId}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-ash', 'hover:text-white');
+        activeBtn.classList.add('bg-white', 'text-black');
+      }
+
+      // Reset mobile button states
+      document.querySelectorAll('[id^="m-tab-"]').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-black');
+        btn.classList.add('text-ash');
+      });
+      const activeMBtn = document.getElementById(`m-tab-${tabId}`);
+      if (activeMBtn) {
+        activeMBtn.classList.remove('text-ash');
+        activeMBtn.classList.add('bg-white', 'text-black');
+      }
+
+      // Show/Hide section panes
+      ['dashboard', 'reservations', 'products'].forEach(id => {
+        const pane = document.getElementById(`pane-${id}`);
+        if (pane) {
+          if (id === tabId) {
+            pane.classList.remove('hidden');
+          } else {
+            pane.classList.add('hidden');
+          }
+        }
+      });
+    }
+
+    // ==========================================
+    // 3. REALTIME SUBSCRIBER STREAMS (FIREBASE)
+    // ==========================================
+    function initRealtimeSubscriptions() {
+      const dbStatusBadge = document.getElementById('sync-status');
+      
+      // Wait for FirebaseSync to mount
+      const checkInterval = setInterval(() => {
+        if (window.FirebaseSync) {
+          clearInterval(checkInterval);
+          
+          if (dbStatusBadge) {
+            dbStatusBadge.classList.remove('hidden');
+            if (window.FirebaseSync.isCloudActive()) {
+              dbStatusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Cloud Stream Connected`;
+            } else {
+              dbStatusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500"></span> Sandbox Storage Local`;
+            }
+          }
+
+          // Realtime Bookings Subscription
+          window.FirebaseSync.onBookingsUpdate((bookings) => {
+            adminState.reservations = bookings;
+            renderKPIs();
+            renderReservations();
+          });
+
+          // Realtime Products Subscription
+          window.FirebaseSync.onProductsUpdate((products) => {
+            adminState.products = products;
+            renderKPIs();
+            renderProducts();
+          });
+        }
+      }, 300);
+    }
+
+    // ==========================================
+    // 4. KPI ANALYTICS UPDATER
+    // ==========================================
+    function renderKPIs() {
+      // Revenue calculation (Active and Completed bookings counted)
+      let totalRevenue = 0;
+      let totalCount = adminState.reservations.length;
+      let pendingCount = 0;
+      let customCount = 0;
+
+      adminState.reservations.forEach(res => {
+        if (res.status !== 'Cancelled') {
+          totalRevenue += Number(res.price) || 0;
+        }
+        if (res.status === 'Active') {
+          pendingCount++;
+        }
+        if (res.customized) {
+          customCount++;
+        }
+      });
+
+      // Update KPI nodes
+      document.getElementById('kpi-revenue').textContent = `₦${totalRevenue.toLocaleString()}`;
+      document.getElementById('kpi-total-bookings').textContent = totalCount;
+      document.getElementById('kpi-pending-bookings').textContent = `${pendingCount} Pending Seats`;
+      document.getElementById('kpi-products-count').textContent = adminState.products.length;
+      document.getElementById('inventory-count').textContent = `${adminState.products.length} Offerings Available`;
+
+      const ratio = totalCount > 0 ? Math.round((customCount / totalCount) * 100) : 0;
+      document.getElementById('kpi-custom-ratio').textContent = `${ratio}%`;
+
+      // Barber Distribution Charts
+      let teezCount = 0;
+      let kingCount = 0;
+      adminState.reservations.forEach(res => {
+        if (res.barber === 'teez') teezCount++;
+        if (res.barber === 'king') kingCount++;
+      });
+
+      const totalDist = teezCount + kingCount || 1;
+      const teezPercentage = Math.round((teezCount / totalDist) * 100);
+      const kingPercentage = Math.round((kingCount / totalDist) * 100);
+
+      document.getElementById('dist-teez').textContent = `${teezCount} cuts`;
+      document.getElementById('dist-king').textContent = `${kingCount} cuts`;
+      
+      document.getElementById('bar-teez').style.width = `${teezPercentage}%`;
+      document.getElementById('bar-king').style.width = `${kingPercentage}%`;
+    }
+
+    // ==========================================
+    // 5. RESERVATIONS DISPLAY & CONTROLS
+    // ==========================================
+    function filterReservations(filterType) {
+      adminState.currentResFilter = filterType;
+      
+      // Update filter UI buttons
+      document.querySelectorAll('.filter-res-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-black', 'border-white');
+        btn.classList.add('text-ash', 'border-zinc-850');
+      });
+
+      // Highlight target button
+      if (event && event.target) {
+        event.target.classList.remove('text-ash', 'border-zinc-850');
+        event.target.classList.add('bg-white', 'text-black', 'border-white');
+      }
+
+      renderReservations();
+    }
+
+    function renderReservations() {
+      const tbody = document.getElementById('reservations-table-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+
+      const filtered = adminState.reservations.filter(res => {
+        if (adminState.currentResFilter === 'All') return true;
+        return res.status === adminState.currentResFilter;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="py-12 text-center text-zinc-500 tracking-wider">
+              No reservations matched selected filters.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filtered.forEach(res => {
+        const row = document.createElement('tr');
+        row.className = "hover:bg-zinc-950/40 transition duration-200 border-b border-zinc-900";
+
+        // Status Badge Styling
+        let statusBadgeClass = "bg-zinc-900 text-stone-300";
+        if (res.status === 'Completed') statusBadgeClass = "bg-white text-black font-extrabold";
+        if (res.status === 'Cancelled') statusBadgeClass = "bg-stone-900 text-zinc-600 line-through";
+
+        // Style preference layout indicator
+        const prefMarkup = res.customized 
+          ? `<span class="inline-block px-2 py-0.5 rounded bg-zinc-950 border border-zinc-800 text-[10px] text-white">⚙️ Customized</span>` 
+          : `<span class="inline-block px-2 py-0.5 rounded bg-zinc-950 text-[10px] text-zinc-600">Standard</span>`;
+
+        row.innerHTML = `
+          <td class="py-4 px-6">
+            <p class="font-bold text-white">${res.name}</p>
+            <p class="text-[10px] text-ash font-mono">${res.phone || 'N/A'}</p>
+          </td>
+          <td class="py-4 px-6">
+            <span class="font-semibold text-zinc-300 uppercase text-[11px]">${res.service}</span>
+            <span class="block text-[10px] text-zinc-500">Barber: ${res.barber.toUpperCase()}</span>
+          </td>
+          <td class="py-4 px-6">
+            <p class="font-bold">${res.date}</p>
+            <p class="text-[10px] text-ash">${res.time}</p>
+          </td>
+          <td class="py-4 px-6 font-semibold font-mono text-white">
+            ₦${(Number(res.price) || 0).toLocaleString()}
+          </td>
+          <td class="py-4 px-6">
+            ${prefMarkup}
+          </td>
+          <td class="py-4 px-6">
+            <span class="px-2 py-1 rounded text-[10px] uppercase font-bold tracking-wider ${statusBadgeClass}">
+              ${res.status}
+            </span>
+          </td>
+          <td class="py-4 px-6 text-right space-x-1">
+            <button onclick="updateResState('${res.id}', 'Completed')" class="px-2 py-1 bg-white text-black hover:bg-stone-200 text-[10px] font-bold rounded transition">
+              Complete
+            </button>
+            <button onclick="updateResState('${res.id}', 'Cancelled')" class="px-2 py-1 bg-zinc-900 hover:bg-zinc-850 text-[10px] text-red-400 rounded border border-zinc-800 transition">
+              Cancel
+            </button>
+          </td>
+        `;
+
+        tbody.appendChild(row);
+      });
+    }
+
+    async function updateResState(bookingId, status) {
+      if (typeof window.FirebaseSync !== 'undefined') {
+        const success = await window.FirebaseSync.updateBookingStatus(bookingId, status);
+        if (success && typeof showNotification === 'function') {
+          showNotification(`Reservation changed status to: ${status}`, 'success');
+        }
+      }
+    }
+
+    // ==========================================
+    // 6. PRODUCT CREATOR & BASE64 PREVIEWS
+    // ==========================================
+    function setupFormListeners() {
+      const prodForm = document.getElementById('product-creator-form');
+      const iconInput = document.getElementById('prod-icon');
+      const iconPreview = document.getElementById('icon-preview');
+
+      // Update icon preview box dynamically
+      iconInput.addEventListener('input', () => {
+        iconPreview.textContent = iconInput.value || '💈';
+      });
+
+      // Handle Base64 Upload Image 1
+      const img1File = document.getElementById('prod-img1-file');
+      img1File.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            document.getElementById('prod-base64-1').value = event.target.result;
+            document.getElementById('img1-preview').src = event.target.result;
+            document.getElementById('img1-preview').classList.remove('hidden');
+            document.getElementById('img1-placeholder').classList.add('opacity-0');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Handle Base64 Upload Image 2
+      const img2File = document.getElementById('prod-img2-file');
+      img2File.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            document.getElementById('prod-base64-2').value = event.target.result;
+            document.getElementById('img2-preview').src = event.target.result;
+            document.getElementById('img2-preview').classList.remove('hidden');
+            document.getElementById('img2-placeholder').classList.add('opacity-0');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Handle Submit Form
+      prodForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const productId = document.getElementById('product-id-field').value;
+        const name = document.getElementById('prod-name').value;
+        const tag = document.getElementById('prod-tag').value;
+        const price = Number(document.getElementById('prod-price').value);
+        const icon = document.getElementById('prod-icon').value;
+        const description = document.getElementById('prod-description').value;
+        const image1 = document.getElementById('prod-base64-1').value;
+        const image2 = document.getElementById('prod-base64-2').value;
+
+        const payload = { name, tag, price, icon, description, image1, image2 };
+
+        if (window.FirebaseSync) {
+          const result = await window.FirebaseSync.saveProduct(productId || null, payload);
+          if (result.success) {
+            showNotification(productId ? 'Product Updated Successfully' : 'New Product Registered', 'success');
+            resetProductForm();
+          }
+        }
+      });
+    }
+
+    function resetProductForm() {
+      document.getElementById('product-creator-form').reset();
+      document.getElementById('product-id-field').value = '';
+      
+      // Reset cover elements
+      document.getElementById('prod-base64-1').value = '';
+      document.getElementById('img1-preview').classList.add('hidden');
+      document.getElementById('img1-placeholder').classList.remove('opacity-0');
+
+      document.getElementById('prod-base64-2').value = '';
+      document.getElementById('img2-preview').classList.add('hidden');
+      document.getElementById('img2-placeholder').classList.remove('opacity-0');
+
+      document.getElementById('icon-preview').textContent = '💈';
+      document.getElementById('product-form-title').textContent = 'Create New Service Offering';
+      document.getElementById('btn-submit-product').textContent = 'Register Service Component';
+      document.getElementById('btn-reset-product').classList.add('hidden');
+    }
+
+    // ==========================================
+    // 7. RENDER LIVE INVENTORY PRODUCTS
+    // ==========================================
+    function renderProducts() {
+      const grid = document.getElementById('admin-products-grid');
+      if (!grid) return;
+
+      grid.innerHTML = '';
+
+      if (adminState.products.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-2 text-center py-12 text-zinc-500 uppercase tracking-widest text-xs">
+            No dynamic products initialized. Fill form on left.
+          </div>
+        `;
+        return;
+      }
+
+      adminState.products.forEach(prod => {
+        const card = document.createElement('div');
+        card.className = "premium-card p-5 rounded-2xl border border-zinc-900 flex flex-col justify-between";
+
+        // Generate base64 visuals grid if exist
+        let base64PreviewGrid = '';
+        if (prod.image1 || prod.image2) {
+          base64PreviewGrid = `
+            <div class="grid grid-cols-2 gap-2 mt-4 rounded-xl overflow-hidden h-24 border border-zinc-950">
+              ${prod.image1 ? `<img src="${prod.image1}" class="w-full h-full object-cover">` : `<div class="bg-zinc-950 flex items-center justify-center text-[9px] text-zinc-700">No Img 1</div>`}
+              ${prod.image2 ? `<img src="${prod.image2}" class="w-full h-full object-cover">` : `<div class="bg-zinc-950 flex items-center justify-center text-[9px] text-zinc-700">No Img 2</div>`}
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-start">
+              <span class="text-xl">${prod.icon || '💈'}</span>
+              <span class="text-[9px] uppercase font-bold px-2 py-0.5 bg-zinc-900 text-stone-300 border border-zinc-850 rounded">
+                ${prod.tag}
+              </span>
+            </div>
+            
+            <h4 class="font-display font-bold text-sm mt-3 text-white">${prod.name}</h4>
+            <p class="text-xs text-ash mt-1 font-semibold">₦${(Number(prod.price) || 0).toLocaleString()}</p>
+            <p class="text-[11px] text-zinc-500 mt-2 line-clamp-2">${prod.description || 'No description detail provided.'}</p>
+            
+            ${base64PreviewGrid}
+          </div>
+
+          <div class="flex gap-2 mt-5 pt-4 border-t border-zinc-950">
+            <button onclick="editProduct('${prod.id}')" class="flex-1 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-stone-300 rounded text-[10px] font-bold uppercase tracking-wider transition">
+              Edit Card
+            </button>
+            <button onclick="deleteProduct('${prod.id}')" class="px-2 py-1.5 bg-stone-950 text-red-400 hover:text-red-300 rounded text-[10px] transition">
+              🗑️ Delete
+            </button>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Edit Product callback
+    function editProduct(productId) {
+      const prod = adminState.products.find(p => p.id === productId);
+      if (!prod) return;
+
+      document.getElementById('product-id-field').value = prod.id;
+      document.getElementById('prod-name').value = prod.name;
+      document.getElementById('prod-tag').value = prod.tag;
+      document.getElementById('prod-price').value = prod.price;
+      document.getElementById('prod-icon').value = prod.icon;
+      document.getElementById('prod-description').value = prod.description;
+      
+      // Base64 Visual Restoration
+      document.getElementById('prod-base64-1').value = prod.image1 || '';
+      if (prod.image1) {
+        document.getElementById('img1-preview').src = prod.image1;
+        document.getElementById('img1-preview').classList.remove('hidden');
+        document.getElementById('img1-placeholder').classList.add('opacity-0');
+      } else {
+        document.getElementById('img1-preview').classList.add('hidden');
+        document.getElementById('img1-placeholder').classList.remove('opacity-0');
+      }
+
+      document.getElementById('prod-base64-2').value = prod.image2 || '';
+      if (prod.image2) {
+        document.getElementById('img2-preview').src = prod.image2;
+        document.getElementById('img2-preview').classList.remove('hidden');
+        document.getElementById('img2-placeholder').classList.add('opacity-0');
+      } else {
+        document.getElementById('img2-preview').classList.add('hidden');
+        document.getElementById('img2-placeholder').classList.remove('opacity-0');
+      }
+
+      document.getElementById('icon-preview').textContent = prod.icon || '💈';
+      document.getElementById('product-form-title').textContent = 'Modify Active Service';
+      document.getElementById('btn-submit-product').textContent = 'Publish Modification Changes';
+      document.getElementById('btn-reset-product').classList.remove('hidden');
+
+      // Scroll form into view
+      document.getElementById('product-creator-form').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    async function deleteProduct(productId) {
+      if (confirm('Are you absolutely sure you want to retire this salon service from live database?')) {
+        if (window.FirebaseSync) {
+          const success = await window.FirebaseSync.deleteProduct(productId);
+          if (success) {
+            showNotification('Product removed from active storefront roster.', 'success');
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>

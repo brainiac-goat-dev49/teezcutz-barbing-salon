@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TeezCutz Premium Barbing Salon - The peak of modern haircutting, skin fades, and dye treatments in Agbarho, Delta State. Book your masterclass cut today.">
+  <title>TeezCutz | Premium Barbing Salon - Agbarho, Delta State</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Premium Theme Styling -->
+  <link rel="stylesheet" href="designs/style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="TeezCutz-logo.jpeg">
+</head>
+<body class="bg-black text-white relative">
+
+  <!-- Background Ambient Glow Nodes -->
+  <div class="absolute top-0 left-1/4 w-96 h-96 bg-gradient-radial opacity-30 pointer-events-none"></div>
+  <div class="absolute top-[1200px] right-10 w-[500px] h-[500px] bg-gradient-radial opacity-20 pointer-events-none"></div>
+  <div class="absolute bottom-[800px] left-10 w-[600px] h-[600px] bg-gradient-radial opacity-25 pointer-events-none"></div>
+
+  <!-- HEADER & NAVIGATION -->
+  <header class="sticky top-0 z-40 bg-black/80 backdrop-blur-md border-b border-zinc-900 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <img src="TeezCutz-logo.jpeg" alt="TeezCutz Logo" class="h-12 w-auto object-contain rounded-md">
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider uppercase text-stone-400">
+        <a href="#" class="hover:text-white transition duration-200">Home</a>
+        <a href="#customizer" class="hover:text-white transition duration-200">Style Labs</a>
+        <a href="#services" class="hover:text-white transition duration-200">Services</a>
+        <a href="#about" class="hover:text-white transition duration-200">About Barber</a>
+        <a href="#contact" class="hover:text-white transition duration-200">Contact & Map</a>
+      </nav>
+
+      <!-- CTA Book Button -->
+      <div class="hidden md:flex items-center gap-4">
+        <a href="#booking" class="premium-btn inline-flex items-center gap-2 bg-white text-black px-5 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider hover:bg-stone-200 transition">
+          Book Seat <span class="glow-point"></span>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button id="mobile-menu-btn" class="md:hidden p-2 text-stone-400 hover:text-white focus:outline-none" aria-label="Toggle Menu">
+        <i class="fa-solid fa-bars text-2xl"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden absolute top-20 left-0 w-full bg-black/95 border-b border-zinc-800 px-6 py-8 flex flex-col gap-6 animate-fade-in">
+      <nav class="flex flex-col gap-4 text-base font-semibold tracking-wider uppercase">
+        <a href="#" class="mobile-nav-link text-stone-300 hover:text-white py-1">Home</a>
+        <a href="#customizer" class="mobile-nav-link text-stone-300 hover:text-white py-1">Style Labs</a>
+        <a href="#services" class="mobile-nav-link text-stone-300 hover:text-white py-1">Services</a>
+        <a href="#about" class="mobile-nav-link text-stone-300 hover:text-white py-1">About Barber</a>
+        <a href="#contact" class="mobile-nav-link text-stone-300 hover:text-white py-1">Contact & Map</a>
+      </nav>
+      <a href="#booking" class="mobile-nav-link text-center bg-white text-black py-3 rounded-lg text-xs font-black uppercase tracking-wider">
+        Book Seat Now
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-radial-glow py-16 px-4">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 w-full">
+      <!-- Hero Information -->
+      <div class="lg:col-span-7 flex flex-col items-start gap-6 text-left">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-xs text-stone-300 font-semibold uppercase tracking-wider">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+          Agbarho Studio Active Today
+        </div>
+        
+        <h1 class="font-display font-black text-4xl sm:text-6xl xl:text-7xl tracking-tight leading-none text-white">
+          SHARP CUTS.<br>
+          <span class="text-gradient-ash">ELITE CONFIDENCE.</span>
+        </h1>
+        
+        <p class="text-stone-400 text-base sm:text-lg max-w-xl leading-relaxed">
+          Experience the premium barbing precision at <strong class="text-white">TeezCutz</strong>. Nestled in the heart of Agbarho, Delta State, we blend urban artistry with pristine scissor craftsmanship to keep you sharp 24/7.
+        </p>
+
+        <!-- Stats & Features Grid -->
+        <div class="grid grid-cols-3 gap-4 sm:gap-8 border-t border-zinc-900 pt-8 mt-4 w-full max-w-lg">
+          <div>
+            <span class="block font-display font-extrabold text-2xl sm:text-3xl text-white">4.9<span class="text-stone-500 text-lg">★</span></span>
+            <span class="text-[11px] text-stone-500 uppercase tracking-wider font-bold">120+ reviews</span>
+          </div>
+          <div>
+            <span class="block font-display font-extrabold text-2xl sm:text-3xl text-white">100%</span>
+            <span class="text-[11px] text-stone-500 uppercase tracking-wider font-bold">Hygiene Cert</span>
+          </div>
+          <div>
+            <span class="block font-display font-extrabold text-2xl sm:text-3xl text-white">₦2.5k+</span>
+            <span class="text-[11px] text-stone-500 uppercase tracking-wider font-bold">Premium Cuts</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-6">
+          <a href="#booking" class="premium-btn text-center bg-white text-black px-8 py-4 rounded-xl text-sm font-black uppercase tracking-wider hover:bg-stone-200 transition flex items-center justify-center gap-3">
+            Secure Appointment <i class="fa-solid fa-calendar-check"></i>
+          </a>
+          <a href="#customizer" class="text-center border border-zinc-800 hover:border-white text-white px-8 py-4 rounded-xl text-sm font-black uppercase tracking-wider transition">
+            Preview Style Customizer
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero Visual Card (Aesthetic Barber Pole & Image Blend) -->
+      <div class="lg:col-span-5 relative flex justify-center lg:justify-end">
+        <div class="relative w-full max-w-[400px] aspect-[4/5] premium-card rounded-2xl overflow-hidden p-3 border border-zinc-800 group">
+          <!-- Subtle Barber Stripe Backdrop -->
+          <div class="absolute inset-0 barber-stripe pointer-events-none opacity-[0.06] group-hover:opacity-10 transition duration-500"></div>
+          
+          <!-- Outer image container -->
+          <div class="w-full h-full bg-stone-900 rounded-xl relative overflow-hidden flex flex-col justify-end p-6">
+            <div class="absolute inset-0 bg-cover bg-center opacity-70 mix-blend-luminosity hover:mix-blend-normal transition duration-500" style="background-image: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=600');"></div>
+            
+            <!-- Dark Overlay Gradient -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+
+            <!-- Card Bottom Information -->
+            <div class="relative z-10 flex flex-col gap-2">
+              <span class="text-[10px] uppercase tracking-widest text-stone-400 font-bold">Studio Masterpiece</span>
+              <h3 class="font-display font-bold text-2xl text-white">THE AGBARHO SIGNATURE</h3>
+              <p class="text-stone-300 text-xs">Premium skin fading with pristine razor contours, hot towel prep, and tailored beard alignment.</p>
+              <div class="mt-2 inline-flex items-center gap-2 text-xs text-stone-200 font-semibold">
+                <span class="text-white bg-zinc-900 px-2 py-1 rounded">Estimated Cost: ₦4,000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE HAIRCUT STYLE CUSTOMIZER (STYLE LAB) -->
+  <section id="customizer" class="py-24 border-t border-zinc-900 bg-stone-950/40 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <span class="text-xs uppercase tracking-[0.25em] text-stone-400 font-bold">TeezCutz Style Laboratory</span>
+        <h2 class="font-display font-black text-3xl sm:text-5xl text-white mt-3">PREVIEW YOUR FRESH CUT</h2>
+        <div class="w-16 h-1 bg-white mx-auto mt-4"></div>
+        <p class="text-stone-400 mt-6 text-sm sm:text-base">
+          Customize your ultimate style using our interactive digital laboratory. Choose your haircut, fade gradients, beard density, and colors. Download your generated model outline to show Master Barber Teez!
+        </p>
+      </div>
+
+      <!-- Customizer UI Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+        
+        <!-- Controls panel (Left) -->
+        <div class="lg:col-span-5 premium-card p-6 sm:p-8 rounded-2xl border border-zinc-850 flex flex-col justify-between gap-6">
+          <div class="space-y-5">
+            <h3 class="font-display font-bold text-xl text-white border-b border-zinc-900 pb-3">Lab Configurations</h3>
+            
+            <!-- Haircut Selection -->
+            <div>
+              <label class="block text-xs uppercase tracking-wider text-stone-400 font-bold mb-2" for="opt-style">1. Haircut Style</label>
+              <select id="opt-style" class="w-full bg-stone-900 border border-zinc-800 rounded-lg p-3 text-sm text-stone-100 focus:outline-none focus:border-white transition">
+                <option value="lowcut">Low Cut (Standard Trim)</option>
+                <option value="buzzcut">Buzz Cut (Crispy Guard)</option>
+                <option value="afro">Afro (Round & Full)</option>
+                <option value="dreadlocks">Dreadlocks / Twisted Coils</option>
+                <option value="southside">Southside Fade Special</option>
+              </select>
+            </div>
+
+            <!-- Fade Selector -->
+            <div>
+              <label class="block text-xs uppercase tracking-wider text-stone-400 font-bold mb-2" for="opt-fade">2. Fade Gradient</label>
+              <select id="opt-fade" class="w-full bg-stone-900 border border-zinc-800 rounded-lg p-3 text-sm text-stone-100 focus:outline-none focus:border-white transition">
+                <option value="skin">Skin Fade / Bald Drop Fade</option>
+                <option value="taper">Taper Fade (Classic Temple)</option>
+                <option value="drop">Drop Fade (Curved Neckline)</option>
+                <option value="none">No Fade / Classic Edge</option>
+              </select>
+            </div>
+
+            <!-- Beard Configuration -->
+            <div>
+              <label class="block text-xs uppercase tracking-wider text-stone-400 font-bold mb-2" for="opt-beard">3. Facial Hair / Beard</label>
+              <select id="opt-beard" class="w-full bg-stone-900 border border-zinc-800 rounded-lg p-3 text-sm text-stone-100 focus:outline-none focus:border-white transition">
+                <option value="stubble">Light Stubbles</option>
+                <option value="full">Full Beard & Mustache</option>
+                <option value="goatee">Goatee Trim / Van Dyke</option>
+                <option value="clean">Clean Shaven (Smooth)</option>
+              </select>
+            </div>
+
+            <!-- Hair Dye Tint Selection -->
+            <div>
+              <label class="block text-xs uppercase tracking-wider text-stone-400 font-bold mb-2" for="opt-color">4. Color Dye & Tint</label>
+              <select id="opt-color" class="w-full bg-stone-900 border border-zinc-800 rounded-lg p-3 text-sm text-stone-100 focus:outline-none focus:border-white transition">
+                <option value="black" selected>Midnight Black (Natural)</option>
+                <option value="blonde">Blonde Bleach Gold</option>
+                <option value="ash">Premium Silver Ash</option>
+                <option value="neon">Neon Viper Green</option>
+              </select>
+            </div>
+
+            <!-- Checkbox Upgrades -->
+            <div class="space-y-3 pt-3 border-t border-zinc-900">
+              <label class="block text-xs uppercase tracking-wider text-stone-500 font-bold mb-1">Add-ons & Detail Art</label>
+              
+              <label class="flex items-center gap-3 cursor-pointer text-sm text-stone-300 hover:text-white">
+                <input type="checkbox" id="opt-hairline" checked class="accent-white w-4 h-4 rounded">
+                <span>Razor sharp lineup outline (+₦500)</span>
+              </label>
+
+              <label class="flex items-center gap-3 cursor-pointer text-sm text-stone-300 hover:text-white">
+                <input type="checkbox" id="opt-design" class="accent-white w-4 h-4 rounded">
+                <span>Custom hair carving design / lightning slash (+₦1,500)</span>
+              </label>
+
+              <label class="flex items-center gap-3 cursor-pointer text-sm text-stone-300 hover:text-white">
+                <input type="checkbox" id="opt-treatment" class="accent-white w-4 h-4 rounded">
+                <span>Scalp & hair oil therapy treatment (+₦2,000)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Total Dynamic Price Estimator (Tied with JS Logic) -->
+          <div class="bg-black/80 border border-zinc-900 rounded-xl p-4 mt-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="block text-[10px] text-stone-500 uppercase tracking-widest font-black">Estimated Styling Price</span>
+                <span class="text-2xl font-display font-extrabold text-white dynamic-naira-price">₦4,000</span>
+              </div>
+              <a href="#booking" class="bg-white text-black text-xs font-black uppercase tracking-wider px-4 py-2 rounded-lg hover:bg-stone-200 transition">
+                Use Cut Layout
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Render Preview Engine (Right) -->
+        <div class="lg:col-span-7 flex flex-col justify-center items-center gap-4 bg-black border border-zinc-900 rounded-2xl p-6 sm:p-8 relative">
+          <div class="absolute top-4 left-4 flex items-center gap-1.5 text-xs text-stone-500 uppercase tracking-wider">
+            <span class="inline-block w-2 h-2 rounded-full bg-red-500"></span>
+            Live Render Canvas
+          </div>
+          <div class="absolute top-4 right-4 text-xs text-stone-500 font-mono">
+            2026 Engine v1.1
+          </div>
+
+          <!-- Canvas Element -->
+          <div class="relative w-full max-w-[420px] aspect-square rounded-xl overflow-hidden border border-zinc-800 shadow-inner mt-4">
+            <canvas id="customizerCanvas" class="w-full h-full block bg-[#0a0a0c]"></canvas>
+          </div>
+
+          <!-- Canvas Instructions & Download Buttons -->
+          <div class="w-full max-w-[420px] flex flex-col sm:flex-row gap-3 mt-4">
+            <button id="btnScreenshot" class="flex-1 bg-zinc-900 border border-zinc-800 text-stone-200 hover:text-white hover:border-white px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-cloud-arrow-down"></i> Save Style Image
+            </button>
+            <a href="#booking" class="flex-1 bg-white text-black px-4 py-3 rounded-xl text-xs font-black uppercase tracking-wider text-center hover:bg-stone-200 transition">
+              Apply to Reservation
+            </a>
+          </div>
+          <p class="text-[11px] text-stone-500 text-center max-w-sm mt-2 leading-relaxed">
+            *Downloads are saved as premium blueprint PNG files. Present this image at our salon desk in Agbarho.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PRICING & SERVICES MENU -->
+  <section id="services" class="py-24 bg-black relative border-t border-zinc-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Header -->
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <span class="text-xs uppercase tracking-[0.25em] text-stone-400 font-bold">The Elite Barbing Standards</span>
+        <h2 class="font-display font-black text-3xl sm:text-5xl text-white mt-3">SERVICES & FARES</h2>
+        <div class="w-16 h-1 bg-white mx-auto mt-4"></div>
+        <p class="text-stone-400 mt-6 text-sm sm:text-base">
+          Premium styling shouldn't have hidden charges. We practice absolute upfront transparency. Select our curated cuts or mix up upgrades to construct your custom vibe.
+        </p>
+      </div>
+
+      <!-- Services Grid -->
+      <div id="services-dynamic-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Dynamic Services items synced live with real-time cloud engine are loaded here -->
+      </div>
+>>>>
+
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION (AGBARHO, DELTA STATE LOCALIZATION) -->
+  <section id="about" class="py-24 bg-stone-950/50 border-t border-zinc-900 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- About visual image (Teez at work vibe) -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative w-full max-w-[450px] aspect-[4/5] mx-auto premium-card rounded-2xl p-2 border border-zinc-800">
+            <div class="w-full h-full bg-zinc-900 rounded-xl overflow-hidden relative">
+              <div class="absolute inset-0 bg-cover bg-center mix-blend-luminosity" style="background-image: url('https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=80&w=600');"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+              
+              <!-- Local landmark badge overlay -->
+              <div class="absolute bottom-6 left-6 right-6 z-10 bg-black/90 backdrop-blur border border-zinc-800 p-4 rounded-xl">
+                <span class="text-[9px] uppercase tracking-widest text-stone-500 font-bold">Studio HQ</span>
+                <h4 class="font-display font-bold text-sm text-white">Agbarho, Delta State</h4>
+                <p class="text-stone-400 text-[11px] mt-1">Conveniently located just off the Ughelli-Warri Express Link, close to Agbarho Market Road.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- About bio text content -->
+        <div class="lg:col-span-7 flex flex-col items-start gap-6 text-left">
+          <span class="text-xs uppercase tracking-[0.25em] text-stone-400 font-bold">The Legend Behind the Blades</span>
+          <h2 class="font-display font-black text-3xl sm:text-5xl text-white">FORGED IN THE HEART OF DELTA STATE</h2>
+          <div class="w-16 h-1 bg-white"></div>
+          
+          <p class="text-stone-400 text-sm sm:text-base leading-relaxed">
+            Welcome to <strong class="text-white">TeezCutz</strong>, led by Teez, Delta State’s elite master barber. For over a decade, Teez has designed look-good, feel-good aesthetics for business leaders, student creators, and community icons across Agbarho, Warri, and Ughelli.
+          </p>
+
+          <p class="text-stone-400 text-sm sm:text-base leading-relaxed">
+            We don’t just cut hair; we curate standard-defining confidence. Our barbing studio in Agbarho guarantees spotless sanitation, top-of-the-line clippers, cold sterilizers, and premium treatment oils sourced to protect melanin skin and Afro-textured hair.
+          </p>
+
+          <!-- Local Community highlights grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 w-full">
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-sm text-white flex-shrink-0 mt-0.5">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white">Spotless Sanitization</h4>
+                <p class="text-xs text-stone-500 mt-1">Ultra-strict UV sterilization for every blade set between cuts.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-sm text-white flex-shrink-0 mt-0.5">
+                <i class="fa-solid fa-mug-hot"></i>
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white">Elite Studio Comfort</h4>
+                <p class="text-xs text-stone-500 mt-1">Uninterrupted power supply, cozy seating, cold drinks, and good local tunes.</p>
+              </div>
+            </div>
+          </div>
+
+          <a href="#booking" class="premium-btn bg-white text-black px-6 py-3.5 rounded-xl text-xs font-black uppercase tracking-wider hover:bg-stone-200 transition mt-4">
+            Reserve Teez's Seat Now
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LIVE TESTIMONIALS & RATING SYSTEM -->
+  <section class="py-24 bg-black relative border-t border-zinc-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <span class="text-xs uppercase tracking-[0.25em] text-stone-400 font-bold">Tested & Confirmed</span>
+        <h2 class="font-display font-black text-3xl sm:text-5xl text-white mt-3">VERIFIED CLIENT REVIEWS</h2>
+        <div class="w-16 h-1 bg-white mx-auto mt-4"></div>
+        <p class="text-stone-400 mt-6 text-sm sm:text-base">
+          Our reviews are organic testimonials left by real gentlemen in Agbarho. Join the league of premium cuts today!
+        </p>
+      </div>
+
+      <!-- Testimonials grid container -->
+      <div id="reviewsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Review 1 -->
+        <div class="premium-card rounded-2xl p-6 sm:p-8 border border-zinc-900 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 text-xs text-white mb-4">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <p class="text-stone-300 text-sm italic leading-relaxed mb-6">
+              "Teez is absolutely the finest barber in Agbarho! The clean skin fade I got for my wedding ceremony was unbelievably crispy. Everyone kept asking where I cut my hair."
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center font-black text-xs text-stone-300">
+              EA
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Efe Ambrose</h4>
+              <span class="block text-[10px] text-stone-500 uppercase font-bold">Agbarho Resident</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="premium-card rounded-2xl p-6 sm:p-8 border border-zinc-900 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 text-xs text-white mb-4">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <p class="text-stone-300 text-sm italic leading-relaxed mb-6">
+              "I custom designed my blonde low cut color on the style simulator and took it to Teez. He replicated it 100% exactly down to the side lightning bolt. Amazing professionalism."
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center font-black text-xs text-stone-300">
+              JO
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Julius Oghene</h4>
+              <span class="block text-[10px] text-stone-500 uppercase font-bold">Student, DELSU</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="premium-card rounded-2xl p-6 sm:p-8 border border-zinc-900 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 text-xs text-white mb-4">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <p class="text-stone-300 text-sm italic leading-relaxed mb-6">
+              "Agbarho has finally got a masterclass barbing hub. No long wait times if you book online. The VVIP package is fully worth every single Naira. Deep face masks and ice cold drinks are top tier."
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center font-black text-xs text-stone-300">
+              CT
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Chief Tega</h4>
+              <span class="block text-[10px] text-stone-500 uppercase font-bold">Business Owner</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Add Simulated Review Form (Interactive addition) -->
+      <div class="max-w-2xl mx-auto mt-16 bg-stone-950/40 p-6 sm:p-8 rounded-2xl border border-zinc-900">
+        <h3 class="font-display font-bold text-xl text-white text-center mb-6">WANT TO LEAVE A REVIEW?</h3>
+        
+        <form id="feedbackForm" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] text-stone-400 uppercase font-bold mb-1" for="rev-name">Your Full Name</label>
+              <input type="text" id="rev-name" placeholder="E.g. Benson Okoro" required class="w-full bg-stone-900 border border-zinc-800 text-stone-100 rounded-lg p-3 text-xs focus:outline-none focus:border-white transition">
+            </div>
+            <div>
+              <label class="block text-[11px] text-stone-400 uppercase font-bold mb-1" for="rev-title">Subtitle / Location</label>
+              <input type="text" id="rev-title" placeholder="E.g. Warri / Agbarho Resident" required class="w-full bg-stone-900 border border-zinc-800 text-stone-100 rounded-lg p-3 text-xs focus:outline-none focus:border-white transition">
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-[11px] text-stone-400 uppercase font-bold mb-1" for="rev-stars">Rating Scale</label>
+            <select id="rev-stars" class="w-full bg-stone-900 border border-zinc-800 text-stone-100 rounded-lg p-3 text-xs focus:outline-none focus:border-white transition">
+              <option value="5">★★★★★ - Excellent 5 Stars</option>
+              <option value="4">★★★★☆ - Great 4 Stars</option>
+              <option value="3">★★★☆☆ - Average 3 Stars</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[11px] text-stone-400 uppercase font-bold mb-1" for="rev-msg">Your Honest Review</label>
+            <textarea id="rev-msg" rows="3" placeholder="Tell us about your cutting experience at TeezCutz..." required class="w-full bg-stone-900 border border-zinc-800 text-stone-100 rounded-lg p-3 text-xs focus:outline-none focus:border-white transition"></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-white text-black p-3.5 rounded-xl text-xs font-black uppercase tracking-wider hover:bg-stone-200 transition">
+            Submit Feedback
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- UNIFIED BOOKING ENGINE & CONTACT SECTION -->
+  <section id="booking" class="py-24 bg-stone-950/40 relative border-t border-zinc-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+        
+        <!-- Booking Form Container (Left-Middle) -->
+        <div class="lg:col-span-7 premium-card rounded-3xl p-6 sm:p-10 border border-zinc-900 flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center gap-2 text-xs text-stone-400 uppercase tracking-widest font-bold mb-4">
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-white"></span> Online Desk
+            </div>
+            <h2 class="font-display font-black text-3xl sm:text-4xl text-white mb-2">RESERVE YOUR CUT</h2>
+            <p class="text-stone-400 text-xs sm:text-sm mb-8 leading-relaxed">
+              No lines. No waiting lists. Book online securely, set your style priorities, and walk straight into your allocated slot.
+            </p>
+
+            <form id="bookingForm" class="space-y-6">
+              
+              <!-- Name and Phone Inputs -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-[11px] text-stone-400 uppercase font-bold mb-1.5" for="booking-name">Full Name *</label>
+                  <input type="text" id="booking-name" placeholder="Enter your name" required class="w-full bg-stone-900 border border-zinc-800 text-stone-100 rounded-xl p-3.5 text-xs focus:outline-none focus:border-white transition">
+                </div>
+                <div>
+                  <label class="block text-[11px] text-stone-400 uppercase font-bold mb-1.5" for="booking-phone">Phone Number (WhatsApp preferred) *</label>
+                  <input type="tel" id="booking-phone" placeholder="E.g. 08123456789" required class="w-full bg-stone-900 border border-zinc-800 text-stone-100 rounded-xl p-3.5 text-xs focus:outline-none focus:border-white transition">
+                </div>
+              </div>
+
+              <!-- Service and Barber Selection Dropdowns -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-[11px] text-stone-400 uppercase font-bold mb-1.5" for="booking-service">Service Option</label>
+                  <select id="booking-service" class="w-full bg-stone-900 border border-zinc-800 text-stone-100 rounded-xl p-3.5 text-xs focus:outline-none focus:border-white transition">
+                    <option value="signature" selected>The Signature Fade (₦4,000)</option>
+                    <option value="vvip">TeezCutz VVIP Special (₦10,000)</option>
+                    <option value="student">Student & Kid Cadet (₦2,500)</option>
+                    <option value="beard">Beard Sculpting & Oils (₦2,000)</option>
+                    <option value="dye">Premium Dye Tinting (₦5,000)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-[11px] text-stone-400 uppercase font-bold mb-1.5" for="booking-barber">Preferred Artist</label>
+                  <select id="booking-barber" class="w-full bg-stone-900 border border-zinc-800 text-stone-100 rounded-xl p-3.5 text-xs focus:outline-none focus:border-white transition">
+                    <option value="teez" selected>Master Barber Teez (Primary)</option>
+                    <option value="victor">Victor (Fade Specialist)</option>
+                    <option value="collins">Collins (Senior Hair Designer)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Date Picker Input -->
+              <div>
+                <label class="block text-[11px] text-stone-400 uppercase font-bold mb-1.5" for="booking-date">Choose Appointment Date *</label>
+                <input type="date" id="booking-date" required class="w-full bg-stone-900 border border-zinc-800 text-stone-100 rounded-xl p-3.5 text-xs focus:outline-none focus:border-white transition">
+              </div>
+
+              <!-- Dynamic Time Slot Interactive Container (JS populated) -->
+              <div>
+                <label class="block text-[11px] text-stone-400 uppercase font-bold mb-2">Available Time Slots (Click to Select) *</label>
+                <div id="time-slots-container" class="grid grid-cols-4 gap-2">
+                  <!-- JS dynamically appends buttons here -->
+                </div>
+              </div>
+
+              <!-- Estimated dynamic price display -->
+              <div class="p-4 bg-zinc-950 border border-zinc-900 rounded-xl flex items-center justify-between">
+                <div>
+                  <span class="block text-[10px] text-stone-500 uppercase tracking-widest font-black">Estimated Bill Total</span>
+                  <span class="text-3xl font-display font-black text-white dynamic-naira-price">₦4,000</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-[9px] text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded uppercase font-bold">2026 Price Guaranteed</span>
+                </div>
+              </div>
+
+              <button type="submit" class="w-full bg-white text-black p-4 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-stone-200 transition">
+                CONFIRM RESERVATION <i class="fa-solid fa-calendar-check ml-1"></i>
+              </button>
+
+            </form>
+          </div>
+        </div>
+
+        <!-- Contact Studio Info & Local Embed Map (Right) -->
+        <div id="contact" class="lg:col-span-5 flex flex-col justify-between gap-8">
+          
+          <!-- Quick Contact Information Cards -->
+          <div class="premium-card rounded-2xl p-6 border border-zinc-900 space-y-4">
+            <h3 class="font-display font-bold text-lg text-white">THE HQ STUDIO</h3>
+            
+            <div class="space-y-3 text-xs text-stone-400">
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-location-dot text-white mt-0.5"></i>
+                <p>
+                  <strong class="text-white">TeezCutz Barber Studio</strong><br>
+                  Plot 14, Near Agbarho Market Road Link,<br>
+                  Off Ughelli-Warri Expressway,<br>
+                  Agbarho, Delta State, Nigeria.
+                </p>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-phone text-white"></i>
+                <span>+234 (0) 812-345-6789 (WhatsApp / Call)</span>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-envelope text-white"></i>
+                <span>bookings@teezcutz-agbarho.com</span>
+              </div>
+            </div>
+
+            <!-- Operational Hours -->
+            <div class="border-t border-zinc-900 pt-3">
+              <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-2">STUDIO HOURS</h4>
+              <div class="grid grid-cols-2 gap-1 text-[11px] text-stone-500">
+                <span>Monday - Saturday:</span>
+                <span class="text-stone-300">8:00 AM - 9:00 PM</span>
+                <span>Sunday Service:</span>
+                <span class="text-stone-300">12:00 PM - 8:00 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Embed Google Map for Agbarho, Delta State -->
+          <div class="flex-1 min-h-[300px] bg-stone-900 border border-zinc-800 rounded-2xl overflow-hidden relative shadow-inner">
+            <!-- Map Iframe with custom stylized overlay border -->
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15887.899661445025!2d5.845423851082531!3d5.586118439169608!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1041695bc8f0eeef%3A0xe53d0ffce0d6fc!2sAgbarho%20330104%2C%20Delta!5e0!3m2!1sen!2sng!4v1710000000000!5m2!1sen!2sng" 
+              class="w-full h-full border-0 absolute inset-0 mix-blend-luminosity hover:mix-blend-normal transition duration-500 opacity-80" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+            
+            <div class="absolute bottom-3 left-3 bg-black/90 backdrop-blur border border-zinc-850 px-3 py-1.5 rounded-lg text-[10px] text-stone-400 pointer-events-none">
+              <i class="fa-solid fa-circle-info text-white mr-1"></i> Agbarho, Delta State Location
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-black border-t border-zinc-900 py-12 px-4 relative z-20">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+      
+      <!-- Logo Branding -->
+      <a href="#" class="flex items-center gap-3">
+        <img src="TeezCutz-logo.jpeg" alt="TeezCutz Logo" class="h-10 w-auto object-contain rounded-md">
+      </a>
+
+      <!-- Social and Quick Navigation Links -->
+      <div class="flex items-center gap-6 text-stone-500 text-sm">
+        <a href="https://instagram.com" target="_blank" class="hover:text-white transition duration-200" aria-label="Instagram"><i class="fa-brands fa-instagram text-lg"></i></a>
+        <a href="https://facebook.com" target="_blank" class="hover:text-white transition duration-200" aria-label="Facebook"><i class="fa-brands fa-facebook text-lg"></i></a>
+        <a href="https://twitter.com" target="_blank" class="hover:text-white transition duration-200" aria-label="X (formerly Twitter)"><i class="fa-brands fa-x-twitter text-lg"></i></a>
+        <a href="https://whatsapp.com" target="_blank" class="hover:text-white transition duration-200" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+      </div>
+
+      <!-- Copyright Info -->
+      <div class="text-center md:text-right text-[11px] text-stone-600 font-medium">
+        &copy; 2026 TeezCutz Premium Barbing Salon. All Rights Reserved.<br>
+        Agbarho, Delta State, Nigeria.
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- MOBILE INTERACTIVE NAVIGATION CONTROLS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const mobileBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+      if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close menu on selecting item
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+          });
+        });
+
+        // Close menu on clicking window
+        window.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+        });
+      }
+
+      // Add Interactive Feedback Submission Logic
+      const feedbackForm = document.getElementById('feedbackForm');
+      const reviewsContainer = document.getElementById('reviewsContainer');
+
+      if (feedbackForm && reviewsContainer) {
+        feedbackForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          const name = document.getElementById('rev-name').value;
+          const title = document.getElementById('rev-title').value;
+          const rating = parseInt(document.getElementById('rev-stars').value);
+          const msg = document.getElementById('rev-msg').value;
+
+          // Build random initials
+          const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+
+          // Build star icons string
+          let starsHTML = '';
+          for (let i = 0; i < 5; i++) {
+            if (i < rating) {
+              starsHTML += '<i class="fa-solid fa-star"></i> ';
+            } else {
+              starsHTML += '<i class="fa-regular fa-star"></i> ';
+            }
+          }
+
+          // Create standard premium card node
+          const card = document.createElement('div');
+          card.className = 'premium-card rounded-2xl p-6 sm:p-8 border border-zinc-900 flex flex-col justify-between opacity-0 translate-y-4 transition duration-500';
+          card.innerHTML = `
+            <div>
+              <div class="flex items-center gap-1 text-xs text-white mb-4">
+                ${starsHTML}
+              </div>
+              <p class="text-stone-300 text-sm italic leading-relaxed mb-6">
+                "${msg}"
+              </p>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center font-black text-xs text-stone-300">
+                ${initials || 'TZ'}
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white">${name}</h4>
+                <span class="block text-[10px] text-stone-500 uppercase font-bold">${title}</span>
+              </div>
+            </div>
+          `;
+
+          // Insert at start of container
+          reviewsContainer.insertBefore(card, reviewsContainer.firstChild);
+
+          // Reset Form
+          feedbackForm.reset();
+
+          // Trigger transition
+          requestAnimationFrame(() => {
+            card.classList.remove('opacity-0', 'translate-y-4');
+          });
+
+          alert('🎉 Thank you! Your verified cut review was added live to the gallery.');
+        });
+      }
+    });
+  </script>
+
+  <!-- CUSTOM HAIR DESIGN & BOOKING ENGINE LOGIC -->
+  <!-- Firebase SDK (v8 Compat for Global Namespace Support) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <!-- Real-time Database Sync Integration -->
+  <script src="logics/firebase.js"></script>
+
+  <!-- Main Application Logic -->
+  <script src="logics/salon.js"></script>
+
+  <!-- MANDATORY WATERMARK (DO NOT REMOVE OR MODIFY) -->
+  <iframe src="instsite-watermark.html" style="border:none; width:100%; height:100%;"></iframe>
+
+</body>
+</html>
